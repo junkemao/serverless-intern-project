@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "demo/internal/pb;pb";
+
+service ExampleService {
+  rpc InvokeFunction (FunctionRequest) returns (FunctionResponse);
+}
+
+message FunctionRequest {
+  string name = 1;
+}
+
+message FunctionResponse {
+  string message = 1;
+}
