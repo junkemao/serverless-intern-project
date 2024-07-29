@@ -17,7 +17,7 @@ type server struct {
 }
 
 func (s *server) InvokeFunction(ctx context.Context, req *pb.FunctionRequest) (*pb.FunctionResponse, error) {
-	defaultDuration := 5 * time.Second // Set the default duration for the busy spin loop
+	defaultDuration := 5 * time.Millisecond
 
 	start := time.Now()
 	for {
