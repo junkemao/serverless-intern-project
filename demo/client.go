@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	conn, err := grpc.Dial("grpc-server.default.svc.cluster.local:80", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("grpc-server.default.192.168.1.240.sslip.io:80", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
