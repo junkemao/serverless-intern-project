@@ -9,4 +9,5 @@ spec:
       containers:
         - image: junkemao/grpc-server:v1
           ports:
-            - containerPort: 50051
+            - name: h2c
+              containerPort: 50051
