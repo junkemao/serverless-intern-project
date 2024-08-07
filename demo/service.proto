@@ -1,17 +1,17 @@
 syntax = "proto3";
 
-package example;
+package spin;
 
 option go_package = "internal/pb;pb";
 
-service ExampleService {
-  rpc InvokeFunction (FunctionRequest) returns (FunctionResponse);
+service SpinService {
+  rpc Spin (SpinRequest) returns (SpinResponse);
 }
 
-message FunctionRequest {
-  string name = 1;
+message SpinRequest {
+  int64 duration_ms = 1;
 }
 
-message FunctionResponse {
+message SpinResponse {
   string message = 1;
 }
