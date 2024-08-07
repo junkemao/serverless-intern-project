@@ -19,101 +19,101 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ExampleService_InvokeFunction_FullMethodName = "/example.ExampleService/InvokeFunction"
+	SpinService_Spin_FullMethodName = "/spin.SpinService/Spin"
 )
 
-// ExampleServiceClient is the client API for ExampleService service.
+// SpinServiceClient is the client API for SpinService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ExampleServiceClient interface {
-	InvokeFunction(ctx context.Context, in *FunctionRequest, opts ...grpc.CallOption) (*FunctionResponse, error)
+type SpinServiceClient interface {
+	Spin(ctx context.Context, in *SpinRequest, opts ...grpc.CallOption) (*SpinResponse, error)
 }
 
-type exampleServiceClient struct {
+type spinServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewExampleServiceClient(cc grpc.ClientConnInterface) ExampleServiceClient {
-	return &exampleServiceClient{cc}
+func NewSpinServiceClient(cc grpc.ClientConnInterface) SpinServiceClient {
+	return &spinServiceClient{cc}
 }
 
-func (c *exampleServiceClient) InvokeFunction(ctx context.Context, in *FunctionRequest, opts ...grpc.CallOption) (*FunctionResponse, error) {
+func (c *spinServiceClient) Spin(ctx context.Context, in *SpinRequest, opts ...grpc.CallOption) (*SpinResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FunctionResponse)
-	err := c.cc.Invoke(ctx, ExampleService_InvokeFunction_FullMethodName, in, out, cOpts...)
+	out := new(SpinResponse)
+	err := c.cc.Invoke(ctx, SpinService_Spin_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ExampleServiceServer is the server API for ExampleService service.
-// All implementations must embed UnimplementedExampleServiceServer
+// SpinServiceServer is the server API for SpinService service.
+// All implementations must embed UnimplementedSpinServiceServer
 // for forward compatibility.
-type ExampleServiceServer interface {
-	InvokeFunction(context.Context, *FunctionRequest) (*FunctionResponse, error)
-	mustEmbedUnimplementedExampleServiceServer()
+type SpinServiceServer interface {
+	Spin(context.Context, *SpinRequest) (*SpinResponse, error)
+	mustEmbedUnimplementedSpinServiceServer()
 }
 
-// UnimplementedExampleServiceServer must be embedded to have
+// UnimplementedSpinServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedExampleServiceServer struct{}
+type UnimplementedSpinServiceServer struct{}
 
-func (UnimplementedExampleServiceServer) InvokeFunction(context.Context, *FunctionRequest) (*FunctionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method InvokeFunction not implemented")
+func (UnimplementedSpinServiceServer) Spin(context.Context, *SpinRequest) (*SpinResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Spin not implemented")
 }
-func (UnimplementedExampleServiceServer) mustEmbedUnimplementedExampleServiceServer() {}
-func (UnimplementedExampleServiceServer) testEmbeddedByValue()                        {}
+func (UnimplementedSpinServiceServer) mustEmbedUnimplementedSpinServiceServer() {}
+func (UnimplementedSpinServiceServer) testEmbeddedByValue()                     {}
 
-// UnsafeExampleServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ExampleServiceServer will
+// UnsafeSpinServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SpinServiceServer will
 // result in compilation errors.
-type UnsafeExampleServiceServer interface {
-	mustEmbedUnimplementedExampleServiceServer()
+type UnsafeSpinServiceServer interface {
+	mustEmbedUnimplementedSpinServiceServer()
 }
 
-func RegisterExampleServiceServer(s grpc.ServiceRegistrar, srv ExampleServiceServer) {
-	// If the following call pancis, it indicates UnimplementedExampleServiceServer was
+func RegisterSpinServiceServer(s grpc.ServiceRegistrar, srv SpinServiceServer) {
+	// If the following call pancis, it indicates UnimplementedSpinServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&ExampleService_ServiceDesc, srv)
+	s.RegisterService(&SpinService_ServiceDesc, srv)
 }
 
-func _ExampleService_InvokeFunction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FunctionRequest)
+func _SpinService_Spin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SpinRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ExampleServiceServer).InvokeFunction(ctx, in)
+		return srv.(SpinServiceServer).Spin(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ExampleService_InvokeFunction_FullMethodName,
+		FullMethod: SpinService_Spin_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ExampleServiceServer).InvokeFunction(ctx, req.(*FunctionRequest))
+		return srv.(SpinServiceServer).Spin(ctx, req.(*SpinRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ExampleService_ServiceDesc is the grpc.ServiceDesc for ExampleService service.
+// SpinService_ServiceDesc is the grpc.ServiceDesc for SpinService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ExampleService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "example.ExampleService",
-	HandlerType: (*ExampleServiceServer)(nil),
+var SpinService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "spin.SpinService",
+	HandlerType: (*SpinServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "InvokeFunction",
-			Handler:    _ExampleService_InvokeFunction_Handler,
+			MethodName: "Spin",
+			Handler:    _SpinService_Spin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
