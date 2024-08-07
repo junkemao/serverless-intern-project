@@ -1,13 +1,13 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: grpc-server
+  name: grpc-server-mod
   namespace: default
 spec:
   template:
     spec:
       containers:
-        - image: junkemao/grpc-server:v1
+        - image: junkemao/grpc-server2:latest
           ports:
             - name: h2c
               containerPort: 50051
