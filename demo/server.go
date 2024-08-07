@@ -13,21 +13,21 @@ import (
 )
 
 type server struct {
-	pb.UnimplementedExampleServiceServer
+	pb.UnimplementedSpinServiceServer
 }
 
-func (s *server) InvokeFunction(ctx context.Context, req *pb.FunctionRequest) (*pb.FunctionResponse, error) {
-	defaultDuration := 5 * time.Millisecond
+func (s *server) Spin(ctx context.Context, req *pb.SpinRequest) (*pb.SpinResponse, error) {
+	duration := time.Duration(req.DurationMs) * time.Millisecond
 
 	start := time.Now()
 	for {
-		if time.Since(start) >= defaultDuration {
+		if time.Since(start) >= duration {
 			break
 		}
 	}
 
-	message := fmt.Sprintf("Busy spin loop completed after %v", defaultDuration)
-	return &pb.FunctionResponse{Message: message}, nil
+	message := fmt.Sprintf("Busy spin loop completed after %v", duration)
+	return &pb.SpinResponse{Message: message}, nil
 }
 
 func main() {
@@ -36,7 +36,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterExampleServiceServer(s, &server{})
+	pb.RegisterSpinServiceServer(s, &server{})
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
